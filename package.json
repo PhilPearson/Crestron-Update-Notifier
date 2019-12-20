@@ -1,13 +1,13 @@
 {
   "name": "crestron-update-notifier",
   "version": "1.0.0",
-  "description": "",
+  "description": "Polls Crestron update site daily and posts any updates to a Slack channel",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "start": "node src/app.js"
   },
-  "author": "",
+  "author": "Phil Pearson",
   "license": "ISC",
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
