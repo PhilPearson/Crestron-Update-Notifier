@@ -1,8 +1,16 @@
 {
   "name": "crestron-update-notifier",
   "version": "1.0.0",
-  "description": "Polls Crestron update site daily and posts any updates to a Slack channel",
-  "main": "index.js",
+  "homepage": "https://www.vizocm.com.au",
+  "description": "Polls Crestron update site daily and posts any updates to Slack and/or MS Teams",
+  "engines": {
+    "node": ">=10.x.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PhilPearson/Crestron-Update-Notifier.git"
+  },
+  "main": "src/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/app.js"

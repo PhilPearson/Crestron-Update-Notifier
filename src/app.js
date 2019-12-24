@@ -1,9 +1,13 @@
 // Scrape Crestron's firmware/software update page and send out a notification via slack
 
-const https   = require('https');     // request
-const fs      = require('fs');        // store results
-const cheerio = require('cheerio');   // jquery like scraping
-const slack   = require('./slack');  // post to slack
+const https   = require('https');       // request
+const fs      = require('fs');          // store results
+const cheerio = require('cheerio');     // jquery like scraping
+const teams   = require('./ms-teams');  // post to ms teams
+const slack   = require('./slack');     // post to slack
+const dotenv  = require('dotenv');      // easy environment vars
+
+dotenv.config();
 
 // Crestron firmware/software update page
 const options = {
@@ -89,7 +93,6 @@ function processBody(body){
  */
 function queryLatestUpdates(callback){
   const req = https.request(options, res => {
-    console.log(`statusCode: ${res.statusCode}`)
     let body = '';
 
     res.on('data', d => {
@@ -122,6 +125,18 @@ queryLatestUpdates(res => {
     console.log('No updates today, exiting');
     process.exit();
   }
-  console.log(`We have ${res.length} results`);
-  slack.postMessage(res);
+
+  // send to configured messaging platforms
+  if(process.env.MSTEAMS_WEBHOOK_PATH){
+    teams.postMessage(res).then(result => {
+      console.log('Slack result: ' + result);
+    });
+  }
+
+  if(process.env.SLACK_WEBHOOK_PATH){
+    slack.postMessage(res).then(result => {
+      console.log('MS Teams result: ' + result);
+    });
+  }
+  
 });
